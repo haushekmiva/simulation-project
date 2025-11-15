@@ -1,13 +1,17 @@
 package models;
 
+import utils.Coordinates;
 import world.WorldMap;
+import world.WorldMapConfig;
 
-import java.awt.*;
 
 public class Herbivore extends Creature {
+    public Herbivore(WorldMapConfig config) {
+        super(config);
+        this.sign = config.getHerbivoreSign();
+    }
 
-    @Override
-    public void makeMove(Point currentPosition, WorldMap map) {
+    public void makeMove(Coordinates currentPosition, WorldMap map) {
 
     }
 }

@@ -1,14 +1,18 @@
 package models;
 
+import utils.Coordinates;
 import world.WorldMap;
-
-import java.awt.*;
+import world.WorldMapConfig;
 
 public abstract class Creature extends Entity {
     protected int speed;
     protected int health;
 
-    public abstract void makeMove(Point currentPosition, WorldMap map);
+    public Creature(WorldMapConfig config) {
+        super(config);
+    }
+
+    public abstract void makeMove(Coordinates currentPosition, WorldMap map);
 
     public int getHealth() {
         return health;

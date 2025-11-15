@@ -1,3 +1,5 @@
+package utils;
+
 import world.WorldMap;
 
 public class Actions {
