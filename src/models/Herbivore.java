@@ -11,7 +11,7 @@ public class Herbivore extends Creature {
         this.sign = config.getHerbivoreSign();
     }
 
-    public void makeMove(Coordinates currentPosition, WorldMap map) {
+    public void makeMove(Coordinates currentPosition, WorldMap world) {
 
     }
 }

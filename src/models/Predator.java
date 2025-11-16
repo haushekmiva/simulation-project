@@ -14,7 +14,7 @@ public class Predator extends Creature {
     }
 
     @Override
-    public void makeMove(Coordinates currentPosition, WorldMap map) {
+    public void makeMove(Coordinates currentPosition, WorldMap world) {
 
     }
 }

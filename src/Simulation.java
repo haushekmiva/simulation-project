@@ -1,8 +1,6 @@
 import utils.Actions;
 import utils.Render;
 import world.WorldMap;
-import world.WorldMapConfig;
-
 
 
 public class Simulation {
@@ -17,9 +15,7 @@ public class Simulation {
     public void startSimulation() {
 
         // начальная генерация
-        WorldMapConfig config = new WorldMapConfig();
-        WorldMap world = new WorldMap(config);
-        actions.initActions(world);
+        WorldMap world = actions.initActions();
         Render.render(world);
 
     }

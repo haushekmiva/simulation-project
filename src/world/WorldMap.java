@@ -3,7 +3,6 @@ package world;
 import models.*;
 import utils.Coordinates;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,24 +44,25 @@ public class WorldMap {
         return height;
     }
 
-    public Map<Coordinates, Entity> getWorldMap() {
-        return worldMap;
-    }
-
     public boolean isCellEmpty(Coordinates cell) {
         return false;
     }
 
-    public void setEntity(Coordinates to, Entity entity) {
-
+    public Entity getEntity(Coordinates coordinates) {
+        return worldMap.get(coordinates);
     }
 
-    public void deleteEntity(Coordinates from, Entity entity) {
+    public void setEntity(Coordinates to, Entity entity) {
+        worldMap.put(to, entity);
+    }
 
+    public void deleteEntity(Coordinates from) {
+        worldMap.remove(from);
     }
 
     public void moveEntity(Coordinates from, Coordinates to, Entity entity) {
-
+        deleteEntity(from);
+        setEntity(to, entity);
     }
 
     private void spawnEntity(Class<? extends Entity> clazz, WorldMapConfig config, int limit, int chance) {
