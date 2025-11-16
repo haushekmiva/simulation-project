@@ -11,6 +11,11 @@ public class WorldMapConfig {
     private int treeLimit = 5;
     private int rockLimit = 10;
 
+    public String getEmptySign() {
+        return emptySign;
+    }
+
+    private String emptySign = "⬛";
     private String predatorSign = "\uD83D\uDC3A";
     private String herbivoreSign = "\uD83D\uDC07";
     private String treeSign = "\uD83C\uDF38";
