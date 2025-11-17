@@ -3,87 +3,62 @@ package utils;
 import models.Entity;
 import world.WorldMap;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 
 public class BFS {
+    public Coordinates searchGoal(Coordinates currentPosition, WorldMap world, Class<?> goal) {
 
-    public List<Coordinates> search(WorldMap world, Coordinates startPoint, int depth, Class<?> goal) {
+        int width = world.getWidth();
+        int height = world.getHeight();
         Queue<Coordinates> toVisit = new ArrayDeque<>();
         List<Coordinates> visited = new ArrayList<>();
-        Map<Coordinates, Coordinates> parentMap = new HashMap<>();
-        visited.add(startPoint);
-        toVisit.add(startPoint);
+        Entity searcher = world.getEntity(currentPosition);
+
+        visited.add(currentPosition);
+        toVisit.add(currentPosition);
         while (!toVisit.isEmpty()) {
 
-            Coordinates currentPosition = toVisit.poll();
-            visited.add(currentPosition);
+            currentPosition = toVisit.poll();
             int x = currentPosition.getX();
             int y = currentPosition.getY();
 
-            if (visited.contains(currentPosition)) continue;
-            else if (world.getEntity(currentPosition).getClass() == goal) {
-                return getRoad(parentMap, currentPosition, startPoint);
+            Entity cell = world.getEntity(currentPosition);
+            if (goal.isInstance(cell)) {
+                return currentPosition;
+
             } else {
+                List<Coordinates> directions = new ArrayList<>(List.of(new Coordinates(x + 1, y),
+                        new Coordinates(x - 1, y), new Coordinates(x, y + 1), new Coordinates(x, y - 1)));
 
 
-                Coordinates neighbour;
+                for (Coordinates direction : directions) {
+                    int directionX = direction.getX();
+                    int directionY = direction.getY();
+
+                        if (directionX >= 0 && directionY >= 0 && directionX < height && directionY < width) {
+                            Coordinates neighbour = new Coordinates(directionX, directionY);
+                            if (!visited.contains(neighbour)) {
+                                visited.add(neighbour);
+                                toVisit.add(neighbour);
+                            }
+                        }
 
 
-                neighbour = new Coordinates(x + 1, y);
-                if (getDepth(parentMap, neighbour, startPoint) < depth) {
-                    toVisit.add(neighbour);
-                    if (!parentMap.containsKey(neighbour)) {
-                        parentMap.put(neighbour, currentPosition);
-                    }
                 }
-
-
-                neighbour = new Coordinates(x - 1, y);
-                if (getDepth(parentMap, neighbour, startPoint) < depth) {
-                    toVisit.add(neighbour);
-                    if (!parentMap.containsKey(neighbour)) {
-                        parentMap.put(neighbour, currentPosition);
-                    }
-                }
-
-
-                neighbour = new Coordinates(x, y + 1);
-                if (getDepth(parentMap, neighbour, startPoint) < depth) {
-                    toVisit.add(neighbour);
-                    if (!parentMap.containsKey(neighbour)) {
-                        parentMap.put(neighbour, currentPosition);
-                    }
-                }
-
-
-                neighbour = new Coordinates(x, y - 1);
-                if (getDepth(parentMap, neighbour, startPoint) < depth) {
-                    toVisit.add(neighbour);
-                    if (!parentMap.containsKey(neighbour)) {
-                        parentMap.put(neighbour, currentPosition);
-                    }
-                }
-
             }
+
+
         }
+
+        return null; // неудача
+
+    }
+
+    public List<Coordinates> searchPath() {
+
         return null;
-    }
-
-    private List<Coordinates> getRoad(Map<Coordinates, Coordinates> parentMap, Coordinates currentPosition, Coordinates startPoint) {
-        Coordinates parent = null;
-        Coordinates neighbour;
-        List<Coordinates> road = new ArrayList<>();
-        road.add(currentPosition);
-
-        while (parent != startPoint) {
-            parent = parentMap.get(currentPosition);
-            road.add(parent);
-        }
-
-        return road;
-    }
-
-    private int getDepth(Map<Coordinates, Coordinates> parentMap, Coordinates currentPosition, Coordinates startPoint) {
-        return getRoad(parentMap, currentPosition, startPoint).size();
     }
 }

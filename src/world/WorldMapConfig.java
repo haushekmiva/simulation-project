@@ -6,7 +6,7 @@ public class WorldMapConfig {
     //private int objectsCount = 5;
 
     private int herbivoreLimit = 5;
-    private int predatorLimit = 2;
+    private int predatorLimit = 7;
     private int grassLimit = 8;
     private int treeLimit = 5;
     private int rockLimit = 10;

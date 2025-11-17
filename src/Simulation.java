@@ -2,6 +2,8 @@ import utils.Actions;
 import utils.Render;
 import world.WorldMap;
 
+import java.util.Scanner;
+
 
 public class Simulation {
     private WorldMap map;
@@ -17,6 +19,33 @@ public class Simulation {
         // начальная генерация
         WorldMap world = actions.initActions();
         Render.render(world);
+
+        Scanner in = new Scanner(System.in);
+        in.nextLine();
+
+        actions.turnActions(world);
+        Render.render(world);
+        in.nextLine();
+
+        actions.turnActions(world);
+        Render.render(world);
+        in.nextLine();
+
+
+        actions.turnActions(world);
+        Render.render(world);
+        in.nextLine();
+
+
+        actions.turnActions(world);
+        Render.render(world);
+        in.nextLine();
+
+
+        actions.turnActions(world);
+        Render.render(world);
+        in.nextLine();
+
 
     }
 

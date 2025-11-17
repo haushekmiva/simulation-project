@@ -45,7 +45,7 @@ public class WorldMap {
     }
 
     public boolean isCellEmpty(Coordinates cell) {
-        return false;
+        return worldMap.containsKey(cell);
     }
 
     public Entity getEntity(Coordinates coordinates) {
@@ -60,7 +60,8 @@ public class WorldMap {
         worldMap.remove(from);
     }
 
-    public void moveEntity(Coordinates from, Coordinates to, Entity entity) {
+    public void moveEntity(Coordinates from, Coordinates to) {
+        Entity entity = getEntity(from);
         deleteEntity(from);
         setEntity(to, entity);
     }

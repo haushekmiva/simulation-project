@@ -5,9 +5,6 @@ import utils.Coordinates;
 import world.WorldMap;
 import world.WorldMapConfig;
 
-import java.util.List;
-import java.util.Scanner;
-
 
 public class Predator extends Creature {
     private int power;
@@ -19,8 +16,9 @@ public class Predator extends Creature {
 
     @Override
     public void makeMove(Coordinates currentPosition, WorldMap world) {
+
         BFS bfs = new BFS();
-        List<Coordinates> road = bfs.search(world, currentPosition, 5, Grass.class);
-        System.out.println(road);
+        Coordinates goalPosition = bfs.searchGoal(currentPosition, world, Herbivore.class);
+
     }
 }
