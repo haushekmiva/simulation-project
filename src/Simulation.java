@@ -23,28 +23,12 @@ public class Simulation {
         Scanner in = new Scanner(System.in);
         in.nextLine();
 
-        actions.turnActions(world);
-        Render.render(world);
-        in.nextLine();
+        while (true) {
+            actions.turnActions(world);
+            Render.render(world);
+            in.nextLine();
+        }
 
-        actions.turnActions(world);
-        Render.render(world);
-        in.nextLine();
-
-
-        actions.turnActions(world);
-        Render.render(world);
-        in.nextLine();
-
-
-        actions.turnActions(world);
-        Render.render(world);
-        in.nextLine();
-
-
-        actions.turnActions(world);
-        Render.render(world);
-        in.nextLine();
 
 
     }

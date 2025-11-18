@@ -18,9 +18,10 @@ public class Actions {
         int height = world.getHeight();
         for (int x = 0; x <= height; x++) {
             for (int y = 0; y <= width; y++) {
-                Entity entity = world.getEntity(new Coordinates(x, y));
+                Coordinates cell = new Coordinates(x, y);
+                Entity entity = world.getEntity(cell);
                 if (entity instanceof Creature creature) {
-                    creature.makeMove(new Coordinates(x, y), world);
+                    creature.makeMove(cell, world);
                 }
             }
         }

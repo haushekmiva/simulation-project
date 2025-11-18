@@ -45,7 +45,7 @@ public class WorldMap {
     }
 
     public boolean isCellEmpty(Coordinates cell) {
-        return worldMap.containsKey(cell);
+        return !worldMap.containsKey(cell);
     }
 
     public Entity getEntity(Coordinates coordinates) {
