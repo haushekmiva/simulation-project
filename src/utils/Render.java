@@ -7,10 +7,17 @@ import world.WorldMapConfig;
 
 public class Render {
     // реализовать рендер чтобы попробовать
+    private static void clearScreen() {
+        for (int i = 0; i < 50; i++) {
+            System.out.println();
+        }
+    }
+
     public static void render(WorldMap world) {
         WorldMapConfig config = new WorldMapConfig();
         int width = world.getWidth();
         int height = world.getHeight();
+        clearScreen();
         for (int x = 0; x < height; x++) {
             System.out.print("\n");
             for (int y = 0; y < width; y++) {

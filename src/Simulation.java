@@ -20,14 +20,15 @@ public class Simulation {
         WorldMap world = actions.initActions();
         Render.render(world);
 
-        Scanner in = new Scanner(System.in);
-        in.nextLine();
-
         while (true) {
-            actions.turnActions(world);
-            Render.render(world);
-            in.nextLine();
-        }
+        actions.turnActions(world);
+        Render.render(world);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+}
 
 
 

@@ -87,7 +87,9 @@ public class BFS {
                         new Coordinates(x - 1, y), new Coordinates(x, y + 1), new Coordinates(x, y - 1)));
 
                 if (world.isCellEmpty(currentPosition) || currentPosition.equals(startPoint)) {
-                    for (Coordinates direction : directions) {
+                    for (int i = 0; i < 4; i++) {
+                        Random random = new Random();
+                        Coordinates direction = directions.get(random.nextInt(directions.size()));
                         int directionX = direction.getX();
                         int directionY = direction.getY();
 

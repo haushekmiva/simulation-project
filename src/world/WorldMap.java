@@ -5,6 +5,7 @@ import utils.Coordinates;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 
 public class WorldMap {
@@ -17,6 +18,7 @@ public class WorldMap {
     private int rockLimit;
 
     private Map<Coordinates, Entity> worldMap = new HashMap<>();
+    private final Random random = new Random();
 
     public WorldMap(WorldMapConfig config) {
         this.width = config.getWidth();
@@ -34,6 +36,10 @@ public class WorldMap {
         spawnEntity(Tree.class, config, treeLimit, 5);
 
 
+    }
+
+    public Random getRandom() {
+        return random;
     }
 
     public int getWidth() {

@@ -1,15 +1,47 @@
 package world;
 
 public class WorldMapConfig {
-    private int width = 25;
-    private int height = 10;
-    //private int objectsCount = 5;
+    private final int width = 25;
+    private final int height = 10;
 
-    private int herbivoreLimit = 5;
-    private int predatorLimit = 7;
-    private int grassLimit = 8;
-    private int treeLimit = 5;
-    private int rockLimit = 10;
+    private final int herbivoreLimit = 8;
+    private final int predatorLimit = 3;
+    private final int grassLimit = 20;
+    private final int treeLimit = 5;
+    private final int rockLimit = 10;
+
+    private int herbivoreHealth = 4;
+    private int predatorHealth = 16;
+    private int predatorPower = 2;
+
+    public int getPredatorHealth() {
+        return predatorHealth;
+    }
+
+    private int predatorMoveDelay = 0;
+    private int herbivoreMoveDelay = 1;
+
+    private int grassEnergy = 2;
+
+    public int getGrassEnergy() {
+        return grassEnergy;
+    }
+
+    public int getHerbivoreHealth() {
+        return herbivoreHealth;
+    }
+
+    public int getPredatorMoveDelay() {
+        return predatorMoveDelay;
+    }
+
+    public int getHerbivoreMoveDelay() {
+        return herbivoreMoveDelay;
+    }
+
+    public int getPredatorPower() {
+        return predatorPower;
+    }
 
     public String getEmptySign() {
         return emptySign;
