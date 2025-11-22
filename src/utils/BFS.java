@@ -3,7 +3,6 @@ package utils;
 import models.Entity;
 import world.WorldMap;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class BFS {
                     int directionX = direction.getX();
                     int directionY = direction.getY();
 
-                        if (directionX >= 0 && directionY >= 0 && directionX < height && directionY < width) {
+                        if (CoordinatesUtils.isInBoundaries(directionX, directionY, world)) {
                             Coordinates neighbour = new Coordinates(directionX, directionY);
                             if (!visited.contains(neighbour)) {
                                 visited.add(neighbour);
@@ -93,7 +92,7 @@ public class BFS {
                         int directionX = direction.getX();
                         int directionY = direction.getY();
 
-                        if (directionX >= 0 && directionY >= 0 && directionX < height && directionY < width) {
+                        if (CoordinatesUtils.isInBoundaries(directionX, directionY, world)) {
                             Coordinates neighbour = new Coordinates(directionX, directionY);
                             if (!visited.contains(neighbour)) {
                                 visited.add(neighbour);

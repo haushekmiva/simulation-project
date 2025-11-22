@@ -22,7 +22,7 @@ public class Actions {
 
     public WorldMap initActions() {
         WorldMapConfig config = new WorldMapConfig();
-        WorldMap world = new WorldMap(config);
+        WorldMap world = new WorldMap();
         return world;
     }
 
@@ -47,6 +47,8 @@ public class Actions {
                         creature.makeMove(world);
                         moved.add(entity);
                     }
+
+                    world.balanceWorld();
 
                 }
             }

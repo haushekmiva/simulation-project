@@ -6,6 +6,7 @@ import world.WorldMapConfig;
 
 
 public class Herbivore extends Creature {
+
     public Herbivore(WorldMapConfig config) {
         super(config);
         this.health = config.getHerbivoreHealth();
@@ -15,6 +16,7 @@ public class Herbivore extends Creature {
         this.moveDelay = config.getHerbivoreMoveDelay();
         this.onArriveBehavior = new HerbivoreOnArrive();
         this.target = Grass.class;
+
     }
 
 }

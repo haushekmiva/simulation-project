@@ -14,14 +14,21 @@ public class WorldMapConfig {
     private int predatorHealth = 16;
     private int predatorPower = 2;
 
-    public int getPredatorHealth() {
-        return predatorHealth;
-    }
-
     private int predatorMoveDelay = 0;
     private int herbivoreMoveDelay = 1;
 
     private int grassEnergy = 2;
+
+    private String emptySign = "⬛";
+    private String predatorSign = "\uD83D\uDC3A";
+    private String herbivoreSign = "\uD83D\uDC07";
+    private String treeSign = "\uD83C\uDF38";
+    private String grassSign = "\uD83C\uDF40";
+    private String rockSign = "⛰\uFE0F";
+
+    public int getPredatorHealth() {
+        return predatorHealth;
+    }
 
     public int getGrassEnergy() {
         return grassEnergy;
@@ -46,13 +53,6 @@ public class WorldMapConfig {
     public String getEmptySign() {
         return emptySign;
     }
-
-    private String emptySign = "⬛";
-    private String predatorSign = "\uD83D\uDC3A";
-    private String herbivoreSign = "\uD83D\uDC07";
-    private String treeSign = "\uD83C\uDF38";
-    private String grassSign = "\uD83C\uDF40";
-    private String rockSign = "⛰\uFE0F";
 
     public int getWidth() {
         return width;

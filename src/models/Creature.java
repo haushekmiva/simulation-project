@@ -3,6 +3,7 @@ package models;
 import models.herbivore.Herbivore;
 import utils.BFS;
 import utils.Coordinates;
+import utils.CoordinatesUtils;
 import world.WorldMap;
 import world.WorldMapConfig;
 
@@ -81,7 +82,7 @@ public abstract class Creature extends Entity {
             int directionX = direction.getX();
             int directionY = direction.getY();
 
-            if (directionX >= 0 && directionY >= 0 && directionX < height && directionY < width) {
+            if (CoordinatesUtils.isInBoundaries(directionX, directionY, world)) {
                 if (world.isCellEmpty(direction)) {
                     System.out.println(direction);
                     world.moveEntity(currentPosition, direction);
@@ -132,8 +133,6 @@ public abstract class Creature extends Entity {
     public int getHealth() {
         return health;
     }
-
-    ;
 
     public void setHealth(int health) {
         this.health = health;

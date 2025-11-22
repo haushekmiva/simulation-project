@@ -1,7 +1,6 @@
 package models.predator;
 
 import models.Creature;
-import models.Entity;
 import models.herbivore.Herbivore;
 import world.WorldMapConfig;
 
