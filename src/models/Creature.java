@@ -1,5 +1,7 @@
 package models;
 
+import models.herbivore.Herbivore;
+import utils.BFS;
 import utils.Coordinates;
 import world.WorldMap;
 import world.WorldMapConfig;
@@ -13,7 +15,19 @@ public abstract class Creature extends Entity {
     protected int maxHealth;
     protected int health;
     protected int moveDelay;
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
     protected int movesAfterTheLastMove = 0;
+    protected OnArrive onArriveBehavior;
+    protected Class<? extends Entity> target;
+
+    public Creature(WorldMapConfig config, OnArrive onArriveBehavior) {
+        super(config);
+        this.onArriveBehavior = onArriveBehavior;
+    }
 
     public int getMoveDelay() {
         return moveDelay;
@@ -41,7 +55,7 @@ public abstract class Creature extends Entity {
         this.movesAfterTheLastMove = value;
     }
 
-    protected void reduceHealth(int hp) {
+    public void reduceHealth(int hp) {
         this.health -= hp;
     }
 
@@ -78,7 +92,35 @@ public abstract class Creature extends Entity {
         }
     }
 
-    public abstract void makeMove(WorldMap map);
+    public void makeMove(WorldMap world) {
+        Coordinates currentPosition = world.getEntityPosition(this);
+        BFS bfs = new BFS();
+        Coordinates goalPosition = bfs.searchGoal(currentPosition, world, target);
+
+
+        if (goalPosition == null) {
+            makeRandomMove(world);
+        } else {
+
+            List<Coordinates> road = bfs.searchPath(currentPosition, goalPosition, world);
+
+            if (road == null) {
+                makeRandomMove(world);
+            } else {
+                Coordinates finalPoint = road.getLast();
+
+                Coordinates nextMove = road.getFirst();
+                if (!finalPoint.equals(currentPosition)) {
+                    if (target.isInstance(world.getEntity(nextMove))) {
+                        onArriveBehavior.onArrive(this, nextMove, world);
+                    } else {
+                        world.moveEntity(currentPosition, nextMove);
+                    }
+                }
+
+            }
+        }
+    };
 
     public int getHealth() {
         return health;

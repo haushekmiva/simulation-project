@@ -1,6 +1,8 @@
 package world;
 
 import models.*;
+import models.herbivore.Herbivore;
+import models.predator.Predator;
 import utils.Coordinates;
 
 import java.util.HashMap;
