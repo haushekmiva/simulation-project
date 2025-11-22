@@ -38,7 +38,7 @@ public class Actions {
                     if (creature.canMove()) {
                         if (isAlive(creature)) {
                             if (!moved.contains(entity)) {
-                                creature.makeMove(cell, world);
+                                creature.makeMove(world);
                                 moved.add(entity);
                             }
                         } else {

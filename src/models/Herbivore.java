@@ -19,7 +19,9 @@ public class Herbivore extends Creature {
         this.moveDelay = config.getHerbivoreMoveDelay();
     }
 
-    public void eat(Coordinates currentPosition, Coordinates foodPosition, WorldMap world) {
+    public void eat(Coordinates foodPosition, WorldMap world) {
+        Coordinates currentPosition = world.getEntityPosition(this);
+
         world.deleteEntity(foodPosition);
         world.moveEntity(currentPosition, foodPosition);
         Entity entity = world.getEntity(foodPosition);
@@ -32,25 +34,28 @@ public class Herbivore extends Creature {
         }
     }
 
-    public void makeMove(Coordinates currentPosition, WorldMap world) {
+    @Override
+    public void makeMove(WorldMap world) {
+
+        Coordinates currentPosition = world.getEntityPosition(this);
         BFS bfs = new BFS();
         Coordinates goalPosition = bfs.searchGoal(currentPosition, world, Grass.class);
 
         if (goalPosition == null) {
-            makeRandomMove(currentPosition, world);
+            makeRandomMove(world);
         } else {
 
             List<Coordinates> road = bfs.searchPath(currentPosition, goalPosition, world);
 
             if (road == null) {
-                makeRandomMove(currentPosition, world);
+                makeRandomMove(world);
             } else {
                 Coordinates finalPoint = road.getLast();
 
                 Coordinates nextMove = road.getFirst();
                 if (!finalPoint.equals(currentPosition)) {
                     if (world.getEntity(nextMove) instanceof Herbivore) {
-                        eat(nextMove, goalPosition, world);
+                        eat(goalPosition, world);
                     }
                     world.moveEntity(currentPosition, nextMove);
 

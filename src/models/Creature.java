@@ -45,7 +45,9 @@ public abstract class Creature extends Entity {
         this.health -= hp;
     }
 
-    protected void makeRandomMove(Coordinates currentPosition, WorldMap world) {
+    protected void makeRandomMove(WorldMap world) {
+        Coordinates currentPosition = world.getEntityPosition(this);
+
         int x = currentPosition.getX();
         int y = currentPosition.getY();
 
@@ -76,7 +78,7 @@ public abstract class Creature extends Entity {
         }
     }
 
-    public abstract void makeMove(Coordinates currentPosition, WorldMap map);
+    public abstract void makeMove(WorldMap map);
 
     public int getHealth() {
         return health;

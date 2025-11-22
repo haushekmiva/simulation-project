@@ -17,7 +17,10 @@ public class WorldMap {
     private int treeLimit;
     private int rockLimit;
 
-    private Map<Coordinates, Entity> worldMap = new HashMap<>();
+    private Map<Coordinates, Entity> entityMap = new HashMap<>();
+    private Map<Entity, Coordinates> coordinatesMap = new HashMap<>();
+
+
     private final Random random = new Random();
 
     public WorldMap(WorldMapConfig config) {
@@ -51,19 +54,22 @@ public class WorldMap {
     }
 
     public boolean isCellEmpty(Coordinates cell) {
-        return !worldMap.containsKey(cell);
+        return !entityMap.containsKey(cell);
     }
 
     public Entity getEntity(Coordinates coordinates) {
-        return worldMap.get(coordinates);
+        return entityMap.get(coordinates);
     }
 
     public void setEntity(Coordinates to, Entity entity) {
-        worldMap.put(to, entity);
+        entityMap.put(to, entity);
+        coordinatesMap.put(entity, to);
     }
 
     public void deleteEntity(Coordinates from) {
-        worldMap.remove(from);
+        Entity entity = entityMap.get(from);
+        entityMap.remove(from);
+        coordinatesMap.remove(entity);
     }
 
     public void moveEntity(Coordinates from, Coordinates to) {
@@ -72,17 +78,23 @@ public class WorldMap {
         setEntity(to, entity);
     }
 
+    public Coordinates getEntityPosition(Entity entity) {
+        return coordinatesMap.get(entity);
+    }
+
+
     private void spawnEntity(Class<? extends Entity> clazz, WorldMapConfig config, int limit, int chance) {
         int count = 0;
         while (count < limit) {
             int x = (int) (Math.random() * height);
             int y = (int) (Math.random() * width);
             Coordinates coordinates = new Coordinates(x, y);
-            if (worldMap.get(coordinates) == null) {
+            if (entityMap.get(coordinates) == null) {
                 if ((Math.random() < chance / 100.0)) {
                     try {
                         Entity entity = clazz.getDeclaredConstructor(WorldMapConfig.class).newInstance(config); // создаём новый объект
-                        worldMap.put(coordinates, entity);
+                        entityMap.put(coordinates, entity);
+                        coordinatesMap.put(entity, coordinates);
                         count++;
                     } catch (Exception e) {
                         e.printStackTrace();

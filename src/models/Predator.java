@@ -20,7 +20,7 @@ public class Predator extends Creature {
         this.moveDelay = config.getPredatorMoveDelay();
     }
 
-    private void atack(Coordinates victimPosition, WorldMap world) {
+    private void attack(Coordinates victimPosition, WorldMap world) {
         Entity entity = world.getEntity(victimPosition);
         if (entity instanceof Creature victim) {
             victim.reduceHealth(power);
@@ -29,25 +29,27 @@ public class Predator extends Creature {
     }
 
     @Override
-    public void makeMove(Coordinates currentPosition, WorldMap world) {
+    public void makeMove(WorldMap world) {
+        Coordinates currentPosition = world.getEntityPosition(this);
         BFS bfs = new BFS();
         Coordinates goalPosition = bfs.searchGoal(currentPosition, world, Herbivore.class);
 
+
         if (goalPosition == null) {
-            makeRandomMove(currentPosition, world);
+            makeRandomMove(world);
         } else {
 
             List<Coordinates> road = bfs.searchPath(currentPosition, goalPosition, world);
 
             if (road == null) {
-                makeRandomMove(currentPosition, world);
+                makeRandomMove(world);
             } else {
                 Coordinates finalPoint = road.getLast();
 
                 Coordinates nextMove = road.getFirst();
                 if (!finalPoint.equals(currentPosition)) {
                     if (world.getEntity(nextMove) instanceof Herbivore) {
-                        atack(nextMove, world);
+                        attack(nextMove, world);
                     }
                     world.moveEntity(currentPosition, nextMove);
 
