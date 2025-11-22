@@ -15,18 +15,16 @@ public abstract class Creature extends Entity {
     protected int maxHealth;
     protected int health;
     protected int moveDelay;
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
     protected int movesAfterTheLastMove = 0;
     protected OnArrive onArriveBehavior;
     protected Class<? extends Entity> target;
-
     public Creature(WorldMapConfig config, OnArrive onArriveBehavior) {
         super(config);
         this.onArriveBehavior = onArriveBehavior;
+    }
+
+    public Creature(WorldMapConfig config) {
+        super(config);
     }
 
     public int getMoveDelay() {
@@ -41,18 +39,20 @@ public abstract class Creature extends Entity {
         return movesAfterTheLastMove;
     }
 
-    public boolean canMove() {
-        if (moveDelay <= movesAfterTheLastMove) {
-            return true;
-        } return false;
-    }
-
-    public Creature(WorldMapConfig config) {
-        super(config);
-    }
-
     public void setMovesAfterTheLastMove(int value) {
         this.movesAfterTheLastMove = value;
+    }
+
+    public boolean canMove() {
+
+        if (this instanceof Herbivore h) {
+            System.out.println(movesAfterTheLastMove);
+        }
+
+        if (moveDelay <= movesAfterTheLastMove) {
+            return true;
+        }
+        return false;
     }
 
     public void reduceHealth(int hp) {
@@ -82,7 +82,7 @@ public abstract class Creature extends Entity {
             int directionY = direction.getY();
 
             if (directionX >= 0 && directionY >= 0 && directionX < height && directionY < width) {
-                if  (world.isCellEmpty(direction)) {
+                if (world.isCellEmpty(direction)) {
                     System.out.println(direction);
                     world.moveEntity(currentPosition, direction);
                     break;
@@ -93,37 +93,50 @@ public abstract class Creature extends Entity {
     }
 
     public void makeMove(WorldMap world) {
-        Coordinates currentPosition = world.getEntityPosition(this);
-        BFS bfs = new BFS();
-        Coordinates goalPosition = bfs.searchGoal(currentPosition, world, target);
 
+        if (canMove()) {
 
-        if (goalPosition == null) {
-            makeRandomMove(world);
-        } else {
+            Coordinates currentPosition = world.getEntityPosition(this);
+            BFS bfs = new BFS();
+            Coordinates goalPosition = bfs.searchGoal(currentPosition, world, target);
 
-            List<Coordinates> road = bfs.searchPath(currentPosition, goalPosition, world);
-
-            if (road == null) {
+            if (goalPosition == null) {
                 makeRandomMove(world);
             } else {
-                Coordinates finalPoint = road.getLast();
 
-                Coordinates nextMove = road.getFirst();
-                if (!finalPoint.equals(currentPosition)) {
-                    if (target.isInstance(world.getEntity(nextMove))) {
-                        onArriveBehavior.onArrive(this, nextMove, world);
-                    } else {
-                        world.moveEntity(currentPosition, nextMove);
+                List<Coordinates> road = bfs.searchPath(currentPosition, goalPosition, world);
+
+                if (road == null) {
+                    makeRandomMove(world);
+                } else {
+                    Coordinates finalPoint = road.getLast();
+
+                    Coordinates nextMove = road.getFirst();
+                    if (!finalPoint.equals(currentPosition)) {
+                        if (target.isInstance(world.getEntity(nextMove))) {
+                            onArriveBehavior.onArrive(this, nextMove, world);
+                        } else {
+                            world.moveEntity(currentPosition, nextMove);
+                        }
                     }
+
                 }
 
-            }
-        }
-    };
+            } movesAfterTheLastMove = 0;
+
+
+        } else movesAfterTheLastMove += 1;
+
+    }
 
     public int getHealth() {
         return health;
+    }
+
+    ;
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public int getSpeed() {

@@ -1,14 +1,8 @@
 package models.herbivore;
 
 import models.Creature;
-import models.Entity;
 import models.Grass;
-import utils.BFS;
-import utils.Coordinates;
-import world.WorldMap;
 import world.WorldMapConfig;
-
-import java.util.List;
 
 
 public class Herbivore extends Creature {
