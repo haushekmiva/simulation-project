@@ -25,8 +25,7 @@ public class BFS {
                 return currentPosition;
 
             } else {
-                List<Coordinates> directions = new ArrayList<>(List.of(new Coordinates(x + 1, y),
-                        new Coordinates(x - 1, y), new Coordinates(x, y + 1), new Coordinates(x, y - 1)));
+                List<Coordinates> directions = CoordinatesUtils.determineDirections(x, y);
 
 
                 for (Coordinates direction : directions) {
@@ -54,8 +53,9 @@ public class BFS {
 
     public List<Coordinates> searchPath(Coordinates startPoint, Coordinates finalPoint, WorldMap world) {
 
-        int width = world.getWidth();
-        int height = world.getHeight();
+        if (finalPoint.isEmpty())
+            return List.of();
+
         Queue<Coordinates> toVisit = new ArrayDeque<>();
         List<Coordinates> visited = new ArrayList<>();
         Map<Coordinates, Coordinates> parentMap = new HashMap<>();
@@ -80,9 +80,7 @@ public class BFS {
                 return road;
 
             } else {
-                List<Coordinates> directions = new ArrayList<>(List.of(new Coordinates(x + 1, y),
-                        new Coordinates(x - 1, y), new Coordinates(x, y + 1), new Coordinates(x, y - 1)));
-
+                List<Coordinates> directions = CoordinatesUtils.determineDirections(x, y);
                 if (world.isCellEmpty(currentPosition) || currentPosition.equals(startPoint)) {
                     for (int i = 0; i < 4; i++) {
                         Random random = new Random();

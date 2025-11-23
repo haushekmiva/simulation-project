@@ -1,15 +1,12 @@
 package models;
 
-import models.herbivore.Herbivore;
 import utils.BFS;
 import utils.Coordinates;
 import utils.CoordinatesUtils;
 import world.WorldMap;
 import world.WorldMapConfig;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public abstract class Creature extends Entity {
     protected int speed;
@@ -19,6 +16,7 @@ public abstract class Creature extends Entity {
     protected int movesAfterTheLastMove = 0;
     protected OnArrive onArriveBehavior;
     protected Class<? extends Entity> target;
+
     public Creature(WorldMapConfig config, OnArrive onArriveBehavior) {
         super(config);
         this.onArriveBehavior = onArriveBehavior;
@@ -28,103 +26,16 @@ public abstract class Creature extends Entity {
         super(config);
     }
 
-    public int getMoveDelay() {
-        return moveDelay;
-    }
-
     public int getMaxHealth() {
         return maxHealth;
     }
 
-    public int getMovesAfterTheLastMove() {
-        return movesAfterTheLastMove;
-    }
-
-    public void setMovesAfterTheLastMove(int value) {
-        this.movesAfterTheLastMove = value;
-    }
-
     public boolean canMove() {
-
-        if (this instanceof Herbivore h) {
-            System.out.println(movesAfterTheLastMove);
-        }
-
-        if (moveDelay <= movesAfterTheLastMove) {
-            return true;
-        }
-        return false;
+        return moveDelay <= movesAfterTheLastMove;
     }
 
     public void reduceHealth(int hp) {
         this.health -= hp;
-    }
-
-    protected void makeRandomMove(WorldMap world) {
-        Coordinates currentPosition = world.getEntityPosition(this);
-
-        int x = currentPosition.getX();
-        int y = currentPosition.getY();
-
-        List<Coordinates> directions = new ArrayList<>(List.of(new Coordinates(x + 1, y),
-                new Coordinates(x - 1, y), new Coordinates(x, y + 1), new Coordinates(x, y - 1)));
-
-        for (int i = 0; i < 4; i++) {
-
-            Random random = world.getRandom();
-            int randomIndex = random.nextInt(directions.size());
-            Coordinates direction = directions.get(randomIndex);
-            directions.remove(randomIndex);
-
-            int directionX = direction.getX();
-            int directionY = direction.getY();
-
-            if (CoordinatesUtils.isInBoundaries(directionX, directionY, world)) {
-                if (world.isCellEmpty(direction)) {
-                    System.out.println(direction);
-                    world.moveEntity(currentPosition, direction);
-                    break;
-                }
-
-            }
-        }
-    }
-
-    public void makeMove(WorldMap world) {
-
-        if (canMove()) {
-
-            Coordinates currentPosition = world.getEntityPosition(this);
-            BFS bfs = new BFS();
-            Coordinates goalPosition = bfs.searchGoal(currentPosition, world, target);
-
-            if (goalPosition == Coordinates.EMPTY) {
-                makeRandomMove(world);
-            } else {
-
-                List<Coordinates> road = bfs.searchPath(currentPosition, goalPosition, world);
-
-                if (road.isEmpty()) {
-                    makeRandomMove(world);
-                } else {
-                    Coordinates finalPoint = road.getLast();
-
-                    Coordinates nextMove = road.getFirst();
-                    if (!finalPoint.equals(currentPosition)) {
-                        if (target.isInstance(world.getEntity(nextMove))) {
-                            onArriveBehavior.onArrive(this, nextMove, world);
-                        } else {
-                            world.moveEntity(currentPosition, nextMove);
-                        }
-                    }
-
-                }
-
-            } movesAfterTheLastMove = 0;
-
-
-        } else movesAfterTheLastMove += 1;
-
     }
 
     public int getHealth() {
@@ -135,7 +46,61 @@ public abstract class Creature extends Entity {
         this.health = health;
     }
 
-    public int getSpeed() {
-        return speed;
+    protected void makeRandomMove(WorldMap world) {
+        Coordinates currentPosition = world.getEntityPosition(this);
+
+        int x = currentPosition.getX();
+        int y = currentPosition.getY();
+        List<Coordinates> directions = CoordinatesUtils.determineDirections(x, y);
+
+        for (Coordinates direction : directions) {
+            int dx = direction.getX();
+            int dy = direction.getY();
+
+            if (!CoordinatesUtils.isInBoundaries(dx, dy, world))
+                continue;
+
+            if (!world.isCellEmpty(direction))
+                continue;
+
+            world.moveEntity(currentPosition, direction);
+            break;
+
+        }
+    }
+
+
+    public void makeMove(WorldMap world) {
+
+        if (!canMove()) {
+            movesAfterTheLastMove ++;
+            return;
+        }
+
+        movesAfterTheLastMove = 0;
+
+        BFS bfs = new BFS();
+        Coordinates currentPosition = world.getEntityPosition(this);
+        Coordinates goalPosition = bfs.searchGoal(currentPosition, world, target);
+        List<Coordinates> road = bfs.searchPath(currentPosition, goalPosition, world);
+
+        if (goalPosition == Coordinates.EMPTY || road.isEmpty()) {
+            makeRandomMove(world);
+            return;
+        }
+
+        if (road.getLast().equals(currentPosition)) {
+            return;
+        }
+
+        Coordinates nextMove = road.getFirst();
+
+        if (target.isInstance(world.getEntity(nextMove))) {
+            onArriveBehavior.onArrive(this, nextMove, world);
+        } else {
+            world.moveEntity(currentPosition, nextMove);
+        }
+
+
     }
 }
