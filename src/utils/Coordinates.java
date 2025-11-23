@@ -5,6 +5,7 @@ import java.util.Objects;
 public class Coordinates {
     private final int x;
     private final int y;
+    public static final Coordinates EMPTY = new Coordinates(-1, -1);
 
     public Coordinates(int x, int y) {
         this.x = x;
@@ -17,6 +18,10 @@ public class Coordinates {
 
     public int getY() {
         return y;
+    }
+
+    public boolean isEmpty() {
+        return this == EMPTY;
     }
 
     @Override

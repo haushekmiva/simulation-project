@@ -2,17 +2,11 @@ import utils.Actions;
 import utils.Render;
 import world.WorldMap;
 
-import java.util.Scanner;
-
 
 public class Simulation {
     private WorldMap map;
     private int turnCounter;
     private Actions actions = new Actions();
-
-    public void nextTurn() {
-
-    }
 
     public void startSimulation() {
 
@@ -29,7 +23,6 @@ public class Simulation {
                 e.printStackTrace();
             }
 }
-
 
 
     }

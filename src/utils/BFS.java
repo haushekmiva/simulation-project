@@ -9,8 +9,6 @@ import java.util.List;
 public class BFS {
     public Coordinates searchGoal(Coordinates currentPosition, WorldMap world, Class<?> goal) {
 
-        int width = world.getWidth();
-        int height = world.getHeight();
         Queue<Coordinates> toVisit = new ArrayDeque<>();
         List<Coordinates> visited = new ArrayList<>();
 
@@ -50,7 +48,7 @@ public class BFS {
 
         }
 
-        return null; // неудача
+        return Coordinates.EMPTY; // неудача
 
     }
 
@@ -114,7 +112,7 @@ public class BFS {
 
         }
 
-        return null; // неудача
+        return List.of(); // неудача
 
     }
 }

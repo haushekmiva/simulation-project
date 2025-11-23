@@ -66,9 +66,6 @@ public abstract class Creature extends Entity {
         int x = currentPosition.getX();
         int y = currentPosition.getY();
 
-        int height = world.getHeight();
-        int width = world.getWidth();
-
         List<Coordinates> directions = new ArrayList<>(List.of(new Coordinates(x + 1, y),
                 new Coordinates(x - 1, y), new Coordinates(x, y + 1), new Coordinates(x, y - 1)));
 
@@ -101,13 +98,13 @@ public abstract class Creature extends Entity {
             BFS bfs = new BFS();
             Coordinates goalPosition = bfs.searchGoal(currentPosition, world, target);
 
-            if (goalPosition == null) {
+            if (goalPosition == Coordinates.EMPTY) {
                 makeRandomMove(world);
             } else {
 
                 List<Coordinates> road = bfs.searchPath(currentPosition, goalPosition, world);
 
-                if (road == null) {
+                if (road.isEmpty()) {
                     makeRandomMove(world);
                 } else {
                     Coordinates finalPoint = road.getLast();
