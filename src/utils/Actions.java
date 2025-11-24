@@ -3,7 +3,6 @@ package utils;
 import models.Creature;
 import models.Entity;
 import world.WorldMap;
-import world.WorldMapConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,19 +10,11 @@ import java.util.List;
 public class Actions {
 
     private boolean isAlive(Creature creature) {
-        if (creature.getHealth() > 0) {
-            return true;
-        } else return false;
-    }
-
-    private void addGrass(WorldMap world) {
-
+        return creature.getHealth() > 0;
     }
 
     public WorldMap initActions() {
-        WorldMapConfig config = new WorldMapConfig();
-        WorldMap world = new WorldMap();
-        return world;
+        return new WorldMap();
     }
 
     public void turnActions(WorldMap world) {

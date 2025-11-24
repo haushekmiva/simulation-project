@@ -6,27 +6,32 @@ import world.WorldMapConfig;
 
 
 public class Render {
-    // реализовать рендер чтобы попробовать
     private static void clearScreen() {
         for (int i = 0; i < 50; i++) {
             System.out.println();
         }
     }
 
+    private static void print(String s) {
+        System.out.print(s);
+    }
+
     public static void render(WorldMap world) {
+        clearScreen();
+
         WorldMapConfig config = new WorldMapConfig();
         int width = world.getWidth();
         int height = world.getHeight();
-        clearScreen();
+
         for (int x = 0; x < height; x++) {
-            System.out.print("\n");
+            print("\n");
             for (int y = 0; y < width; y++) {
                 Coordinates coordinates = new Coordinates(x, y);
                 Entity entity = world.getEntity(coordinates);
-                if (entity != null) {
-                    System.out.print(entity.getSign());
-                } else System.out.print(config.getEmptySign());
-                System.out.print(" ");
+                if (entity == null) {
+                    print(config.getEmptySign());
+                } else print(entity.getSign());
+                print(" ");
             }
 
         }

@@ -26,9 +26,6 @@ public class WorldMap {
             Tree.class, 0
     ));
 
-
-    private final Random random = new Random();
-
     public WorldMap() {
         this.width = config.getWidth();
         this.height = config.getHeight();
@@ -49,10 +46,6 @@ public class WorldMap {
 
     }
 
-    public Random getRandom() {
-        return random;
-    }
-
     public int getWidth() {
         return width;
     }
@@ -68,7 +61,6 @@ public class WorldMap {
         if (entity instanceof Tree t) counts.put(Tree.class, counts.get(Tree.class) + value);
         if (entity instanceof Rock r) counts.put(Rock.class, counts.get(Rock.class) + value);
         if (entity instanceof Grass g) counts.put(Grass.class, counts.get(Grass.class) + value);
-
 
     }
 
@@ -98,6 +90,7 @@ public class WorldMap {
         deleteEntity(from);
         setEntity(to, entity);
     }
+
 
     public Coordinates getEntityPosition(Entity entity) {
         return coordinatesMap.get(entity);
