@@ -17,7 +17,7 @@ public class Herbivore extends Creature {
         this.sign = config.getHerbivoreSign();
         this.moveDelay = config.getHerbivoreMoveDelay();
         this.onArriveBehavior = new HerbivoreOnArrive();
-        this.target = Grass.class;
+        this.target = EntityType.GRASS;
 
     }
 

@@ -15,7 +15,7 @@ public abstract class Creature extends Entity {
     protected int moveDelay;
     protected int movesAfterTheLastMove = 0;
     protected OnArrive onArriveBehavior;
-    protected Class<? extends Entity> target;
+    protected EntityType target;
 
     public Creature(WorldMapConfig config, OnArrive onArriveBehavior) {
         super(config);
@@ -95,7 +95,9 @@ public abstract class Creature extends Entity {
 
         Coordinates nextMove = road.getFirst();
 
-        if (target.isInstance(world.getEntity(nextMove))) {
+
+        Entity entity = world.getEntity(nextMove);
+        if (entity != null && entity.getType() == target) {
             onArriveBehavior.onArrive(this, nextMove, world);
         } else {
             world.moveEntity(currentPosition, nextMove);

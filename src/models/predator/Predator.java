@@ -17,7 +17,7 @@ public class Predator extends Creature {
         this.power = config.getPredatorPower();
         this.sign = config.getPredatorSign();
         this.moveDelay = config.getPredatorMoveDelay();
-        this.target = Herbivore.class;
+        this.target = EntityType.HERBIVORE;
         this.onArriveBehavior = new PredatorOnArrive(power);
     }
 
