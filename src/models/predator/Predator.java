@@ -1,6 +1,7 @@
 package models.predator;
 
 import models.Creature;
+import models.EntityType;
 import models.herbivore.Herbivore;
 import world.WorldMapConfig;
 
@@ -10,6 +11,7 @@ public class Predator extends Creature {
 
     public Predator(WorldMapConfig config) {
         super(config);
+        this.type = EntityType.PREDATOR;
         this.health = config.getPredatorHealth();
         this.movesAfterTheLastMove = config.getPredatorMoveDelay();
         this.power = config.getPredatorPower();

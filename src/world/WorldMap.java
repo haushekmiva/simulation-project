@@ -11,38 +11,40 @@ import java.util.*;
 public class WorldMap {
     private WorldMapConfig config = new WorldMapConfig();
 
+
     private int width;
     private int height;
+    private static final double BOARD_OF_COUNT = 0.3;
 
     private Map<Coordinates, Entity> entityMap = new HashMap<>();
     private Map<Entity, Coordinates> coordinatesMap = new HashMap<>();
 
-    Map<Class<? extends Entity>, Integer> limits;
-    Map<Class<? extends Entity>, Integer> counts = new HashMap<>(Map.of(
-            Herbivore.class, 0,
-            Predator.class, 0,
-            Rock.class, 0,
-            Grass.class, 0,
-            Tree.class, 0
-    ));
+
+    Map<EntityType, Integer> limits = new EnumMap<>(EntityType.class);
+    Map<EntityType, Integer> counts = new EnumMap<>(EntityType.class);
 
     public WorldMap() {
         this.width = config.getWidth();
         this.height = config.getHeight();
-        this.limits = new HashMap<>(Map.of(
-                Herbivore.class, config.getHerbivoreLimit(),
-                Predator.class, config.getPredatorLimit(),
-                Rock.class, config.getRockLimit(),
-                Grass.class, config.getGrassLimit(),
-                Tree.class, config.getTreeLimit()
-        ));
 
-        spawnEntity(Predator.class,limits.get(Predator.class));
-        spawnEntity(Herbivore.class, limits.get(Herbivore.class));
-        spawnEntity(Grass.class, limits.get(Grass.class));
-        spawnEntity(Rock.class,  limits.get(Rock.class));
-        spawnEntity(Tree.class,  limits.get(Tree.class));
+        for (EntityType type : EntityType.values()) {
+            int limit = switch (type) {
+                case HERBIVORE -> config.getHerbivoreLimit();
+                case PREDATOR -> config.getPredatorLimit();
+                case ROCK -> config.getRockLimit();
+                case TREE -> config.getTreeLimit();
+                case GRASS -> config.getGrassLimit();
+            };
+            limits.put(type, limit);
+        }
 
+        for (EntityType type : EntityType.values()) {
+            counts.put(type, 0);
+        }
+
+        for (EntityType type : EntityType.values()) {
+            spawnEntity(type ,limits.get(type));
+        }
 
     }
 
@@ -55,13 +57,8 @@ public class WorldMap {
     }
 
     private void changeCountOfEntity(Entity entity, int value) {
-
-        if (entity instanceof Predator p) counts.put(Predator.class, counts.get(Predator.class) + value);
-        if (entity instanceof Herbivore h) counts.put(Herbivore.class, counts.get(Herbivore.class) + value);
-        if (entity instanceof Tree t) counts.put(Tree.class, counts.get(Tree.class) + value);
-        if (entity instanceof Rock r) counts.put(Rock.class, counts.get(Rock.class) + value);
-        if (entity instanceof Grass g) counts.put(Grass.class, counts.get(Grass.class) + value);
-
+        int count = counts.get(entity.getType());
+        counts.put(entity.getType(), count + value);
     }
 
     public boolean isCellEmpty(Coordinates cell) {
@@ -98,33 +95,30 @@ public class WorldMap {
 
 
     public void balanceWorld() {
-        List<Class<? extends Entity>> entitiesToBalance = new ArrayList<>(List.of(Herbivore.class, Grass.class));
+        List<EntityType> entitiesToBalance = new ArrayList<>(List.of(EntityType.HERBIVORE, EntityType.GRASS));
 
-        for (Class<? extends Entity> entityToBalance : entitiesToBalance) {
-            int limit = limits.get(entityToBalance);
+        for (EntityType type : entitiesToBalance) {
+            int limit = limits.get(type);
 
-            while (counts.get(entityToBalance) < limit*0.3) {
-                spawnEntity(entityToBalance, 1);
+            while (counts.get(type) < limit * BOARD_OF_COUNT) {
+                spawnEntity(type, 1);
             }
 
         }
 
     }
 
-    private void spawnEntity(Class<? extends Entity> clazz, int limit) {
+    private void spawnEntity(EntityType type, int limit) {
         int count = 0;
         while (count < limit) {
             int x = (int) (Math.random() * height);
             int y = (int) (Math.random() * width);
             Coordinates coordinates = new Coordinates(x, y);
             if (entityMap.get(coordinates) == null) {
-                try {
-                    Entity entity = clazz.getDeclaredConstructor(WorldMapConfig.class).newInstance(config); // создаём новый объект
-                    setEntity(coordinates, entity);
-                    count++;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                EntityFactory factory = new EntityFactory();
+                Entity entity = factory.createEntity(type, config);// создаём новый объект
+                setEntity(coordinates, entity);
+                count++;
             }
         }
     }

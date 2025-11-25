@@ -16,10 +16,9 @@ public class Render {
         System.out.print(s);
     }
 
-    public static void render(WorldMap world) {
+    public static void render(WorldMap world, WorldMapConfig config) {
         clearScreen();
 
-        WorldMapConfig config = new WorldMapConfig();
         int width = world.getWidth();
         int height = world.getHeight();
 
