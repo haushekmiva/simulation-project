@@ -6,7 +6,7 @@ import world.WorldMapConfig;
 
 
 public class Predator extends Creature {
-    private int power;
+    private final int power;
 
     public Predator(WorldMapConfig config) {
         super(config);

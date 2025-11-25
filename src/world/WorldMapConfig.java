@@ -10,21 +10,20 @@ public class WorldMapConfig {
     private final int treeLimit = 5;
     private final int rockLimit = 10;
 
-    private int herbivoreHealth = 4;
-    private int predatorHealth = 16;
-    private int predatorPower = 2;
+    private final int herbivoreHealth = 4;
+    private final int predatorHealth = 16;
+    private final int predatorPower = 2;
+    private final int predatorMoveDelay = 0;
+    private final int herbivoreMoveDelay = 1;
 
-    private int predatorMoveDelay = 0;
-    private int herbivoreMoveDelay = 1;
+    private final int grassEnergy = 2;
 
-    private int grassEnergy = 2;
-
-    private String emptySign = "⬛";
-    private String predatorSign = "\uD83D\uDC3A";
-    private String herbivoreSign = "\uD83D\uDC07";
-    private String treeSign = "\uD83C\uDF38";
-    private String grassSign = "\uD83C\uDF40";
-    private String rockSign = "⛰\uFE0F";
+    private final String emptySign = "⬛";
+    private final String predatorSign = "\uD83D\uDC3A";
+    private final String herbivoreSign = "\uD83D\uDC07";
+    private final String treeSign = "\uD83C\uDF38";
+    private final String grassSign = "\uD83C\uDF40";
+    private final String rockSign = "⛰\uFE0F";
 
     public int getPredatorHealth() {
         return predatorHealth;

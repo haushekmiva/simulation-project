@@ -12,8 +12,8 @@ public class HerbivoreOnArrive implements OnArrive {
     public void onArrive(Creature self, Coordinates foodPosition, WorldMap world) {
         Coordinates currentPosition = world.getEntityPosition(self);
 
-        world.deleteEntity(foodPosition);
         Entity entity = world.getEntity(foodPosition);
+        world.deleteEntity(foodPosition);
         world.moveEntity(currentPosition, foodPosition);
         int health = self.getHealth();
         int maxHealth =  self.getMaxHealth();

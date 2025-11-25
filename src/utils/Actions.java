@@ -5,7 +5,9 @@ import models.Entity;
 import world.WorldMap;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Actions {
 
@@ -20,7 +22,7 @@ public class Actions {
     public void turnActions(WorldMap world) {
         int width = world.getWidth();
         int height = world.getHeight();
-        List<Entity> moved = new ArrayList<>();
+        Set<Entity> moved = new HashSet<>();
 
         for (int x = 0; x <= height - 1; x++) {
             for (int y = 0; y <= width - 1; y++) {
@@ -39,11 +41,11 @@ public class Actions {
                         moved.add(entity);
                     }
 
-                    world.balanceWorld();
-
                 }
             }
         }
+
+        world.balanceWorld();
     }
 
 }

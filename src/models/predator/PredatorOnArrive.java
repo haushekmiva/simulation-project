@@ -7,7 +7,7 @@ import utils.Coordinates;
 import world.WorldMap;
 
 public class PredatorOnArrive implements OnArrive {
-    private int power;
+    private final int power;
 
     public PredatorOnArrive(int power) {
         this.power = power;
