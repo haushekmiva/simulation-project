@@ -3,6 +3,7 @@ package utils;
 import models.Creature;
 import models.Entity;
 import world.WorldMap;
+import world.WorldMapConfig;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,8 +16,8 @@ public class Actions {
         return creature.getHealth() > 0;
     }
 
-    public WorldMap initActions() {
-        return new WorldMap();
+    public WorldMap initActions(WorldMapConfig config) {
+        return new WorldMap(config);
     }
 
     public void turnActions(WorldMap world) {

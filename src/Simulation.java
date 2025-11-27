@@ -6,13 +6,12 @@ import world.WorldMapConfig;
 
 public class Simulation {
     private Actions actions = new Actions();
-    private WorldMapConfig config = new WorldMapConfig();
     private static final int TICK_TIME = 1000;
 
-    public void startSimulation() {
+    public void startSimulation(WorldMapConfig config) {
 
         // начальная генерация
-        WorldMap world = actions.initActions();
+        WorldMap world = actions.initActions(config);
         Render.render(world, config);
 
         while (true) {

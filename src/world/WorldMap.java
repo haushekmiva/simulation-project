@@ -1,8 +1,6 @@
 package world;
 
 import models.*;
-import models.herbivore.Herbivore;
-import models.predator.Predator;
 import utils.BFS;
 import utils.Coordinates;
 
@@ -10,12 +8,13 @@ import java.util.*;
 
 
 public class WorldMap {
-    private WorldMapConfig config = new WorldMapConfig();
+    private final WorldMapConfig config;
     private final BFS bfs = new BFS();
+    private final EntityFactory entityFactory = new EntityFactory();
 
-    private int width;
-    private int height;
-    private static final double BOARD_OF_COUNT = 0.3;
+    private final int width;
+    private final int height;
+    private static final double RESPAWN_THRESHOLD = 0.3;
 
     private Map<Coordinates, Entity> entityMap = new HashMap<>();
     private Map<Entity, Coordinates> coordinatesMap = new HashMap<>();
@@ -24,7 +23,8 @@ public class WorldMap {
     Map<EntityType, Integer> limits = new EnumMap<>(EntityType.class);
     Map<EntityType, Integer> counts = new EnumMap<>(EntityType.class);
 
-    public WorldMap() {
+    public WorldMap(WorldMapConfig config) {
+        this.config = config;
         this.width = config.getWidth();
         this.height = config.getHeight();
 
@@ -101,7 +101,7 @@ public class WorldMap {
         for (EntityType type : entitiesToBalance) {
             int limit = limits.get(type);
 
-            while (counts.get(type) < limit * BOARD_OF_COUNT) {
+            while (counts.get(type) < limit * RESPAWN_THRESHOLD) {
                 spawnEntity(type, 1);
             }
 
@@ -116,8 +116,7 @@ public class WorldMap {
             int y = (int) (Math.random() * width);
             Coordinates coordinates = new Coordinates(x, y);
             if (entityMap.get(coordinates) == null) {
-                EntityFactory factory = new EntityFactory();
-                Entity entity = factory.createEntity(type, config, bfs);// создаём новый объект
+                Entity entity = entityFactory.createEntity(type, config, bfs);// создаём новый объект
                 setEntity(coordinates, entity);
                 count++;
             }
