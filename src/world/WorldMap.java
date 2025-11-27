@@ -3,6 +3,7 @@ package world;
 import models.*;
 import models.herbivore.Herbivore;
 import models.predator.Predator;
+import utils.BFS;
 import utils.Coordinates;
 
 import java.util.*;
@@ -10,7 +11,7 @@ import java.util.*;
 
 public class WorldMap {
     private WorldMapConfig config = new WorldMapConfig();
-
+    private final BFS bfs = new BFS();
 
     private int width;
     private int height;
@@ -116,7 +117,7 @@ public class WorldMap {
             Coordinates coordinates = new Coordinates(x, y);
             if (entityMap.get(coordinates) == null) {
                 EntityFactory factory = new EntityFactory();
-                Entity entity = factory.createEntity(type, config);// создаём новый объект
+                Entity entity = factory.createEntity(type, config, bfs);// создаём новый объект
                 setEntity(coordinates, entity);
                 count++;
             }

@@ -16,10 +16,11 @@ public abstract class Creature extends Entity {
     protected int movesAfterTheLastMove = 0;
     protected OnArrive onArriveBehavior;
     protected EntityType target;
+    protected BFS bfs;
 
-    public Creature(WorldMapConfig config, OnArrive onArriveBehavior) {
+    public Creature(WorldMapConfig config, BFS bfs) {
         super(config);
-        this.onArriveBehavior = onArriveBehavior;
+        this.bfs = bfs;
     }
 
     public Creature(WorldMapConfig config) {
@@ -79,7 +80,6 @@ public abstract class Creature extends Entity {
 
         movesAfterTheLastMove = 0;
 
-        BFS bfs = new BFS();
         Coordinates currentPosition = world.getEntityPosition(this);
         Coordinates goalPosition = bfs.searchGoal(currentPosition, world, target);
         List<Coordinates> road = bfs.searchPath(currentPosition, goalPosition, world);

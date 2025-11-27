@@ -3,13 +3,14 @@ package models.herbivore;
 import models.Creature;
 import models.EntityType;
 import models.Grass;
+import utils.BFS;
 import world.WorldMapConfig;
 
 
 public class Herbivore extends Creature {
 
-    public Herbivore(WorldMapConfig config) {
-        super(config);
+    public Herbivore(WorldMapConfig config, BFS bfs) {
+        super(config, bfs);
         this.type = EntityType.HERBIVORE;
         this.health = config.getHerbivoreHealth();
         this.maxHealth = config.getHerbivoreHealth();
