@@ -16,6 +16,14 @@ public class Render {
         System.out.print(s);
     }
 
+
+    /**
+     * Renders the world map in the console using the configuration to determine
+     * how to display each element.
+     *
+     * @param world  the world map containing all entities
+     * @param config the configuration providing templates/signs for rendering
+     */
     public static void render(WorldMap world, WorldMapConfig config) {
         clearScreen();
 
@@ -29,11 +37,13 @@ public class Render {
                 Entity entity = world.getEntity(coordinates);
                 if (entity == null) {
                     print(config.getEmptySign());
-                } else print(entity.getSign());
+                } else {
+                    print(entity.getSign());
+                }
                 print(" ");
             }
-
         }
     }
+
 
 }

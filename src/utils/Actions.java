@@ -20,6 +20,14 @@ public class Actions {
         return new WorldMap(config);
     }
 
+    /**
+     * Performs a single turn.
+     * Iterates over all creatures, executes a turn for each,
+     * and monitors their state. After completing the turn,
+     * calls the map balancing method.
+     *
+     * @param world the world object used for interacting with the map
+     */
     public void turnActions(WorldMap world) {
         int width = world.getWidth();
         int height = world.getHeight();

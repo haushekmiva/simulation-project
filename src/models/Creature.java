@@ -71,6 +71,12 @@ public abstract class Creature extends Entity {
     }
 
 
+    /**
+     * Executes a turn for a creature.
+     * Handles movement and actions when reaching a target.
+     *
+     * @param world the world object used for interacting with the map
+     */
     public void makeMove(WorldMap world) {
 
         if (!canMove()) {

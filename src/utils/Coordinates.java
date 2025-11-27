@@ -5,7 +5,10 @@ import java.util.Objects;
 public class Coordinates {
     private final int x;
     private final int y;
+
+    // This variable is used as empty coordinates for cases where needed
     public static final Coordinates EMPTY = new Coordinates(-1, -1);
+
 
     public Coordinates(int x, int y) {
         this.x = x;

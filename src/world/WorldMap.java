@@ -109,6 +109,15 @@ public class WorldMap {
 
     }
 
+
+    /**
+     * Spawns an entity at a random location on the map.
+     * Determines a random position, calls the factory,
+     * and increments the counter for this entity type.
+     *
+     * @param type the type of creature to spawn
+     * @param limit the number of creatures to add
+     */
     private void spawnEntity(EntityType type, int limit) {
         int count = 0;
         while (count < limit) {
@@ -116,7 +125,7 @@ public class WorldMap {
             int y = (int) (Math.random() * width);
             Coordinates coordinates = new Coordinates(x, y);
             if (entityMap.get(coordinates) == null) {
-                Entity entity = entityFactory.createEntity(type, config, bfs);// создаём новый объект
+                Entity entity = entityFactory.createEntity(type, config, bfs);
                 setEntity(coordinates, entity);
                 count++;
             }
