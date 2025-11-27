@@ -1,24 +1,24 @@
 # Simulation Project
 
-Учебный проект симуляции экосистемы на Java.
+Ecosystem simulation tutorial project in Java.
 
-## Описание
-Симуляция 2D мира с травоядными, хищниками и ресурсами.
-Существа используют BFS для поиска целей.
+## Description
+Simulation of a 2D world with herbivores, predators, and resources.
+Creatures use BFS to find targets.
 
-## Технологии
+## Technologies
 - Java
-- BFS алгоритм
-- ООП паттерны (Strategy, Factory, DI)
+- BFS algorithm
+- OOP patterns (Strategy, Factory, DI)
 
-## Как запустить
+## How to run
 ```
 javac Main.java
 java Main
 ```
 
-## Архитектура
-- `models/` - сущности мира
-- `utils/` - вспомогательные классы (BFS, рендер)
-- `world/` - карта мира и конфигурация
+## Architecture
+- `models/` - world entities
+- `utils/` - helper classes (BFS, renderer)
+- `world/` - world map and configuration
 ```
